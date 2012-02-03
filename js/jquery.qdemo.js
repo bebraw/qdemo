@@ -39,16 +39,16 @@
             return str.slice(0, i + 1);
         }
 
-        String.prototype.camelcase = function() {
-            var s = trim( this );
+        function camelcase(str) {
+            var s = trim(str);
 
             return ( /\S[A-Z]/.test( s ) ) ?
                 s.replace( /(.)([A-Z])/g, function(t,a,b) { return a + ' ' + b.toLowerCase(); } ) :
                 s.replace( /( )([a-z])/g, function(t,a,b) { return b.toUpperCase(); } );
         };
 
-        String.prototype.capitalize = function() {
-            return this.charAt(0).toUpperCase() + this.slice(1);
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         };
 
         function isInt(value) {
@@ -81,7 +81,7 @@
             }
 
             function format(str) {
-                return str.camelcase().capitalize();
+                return capitalize(camelcase(str));
             }
 
             function _recursion(options, title) {
@@ -164,7 +164,10 @@
 
                             if (target == undefined) {
                                 if (!(this.id in ret)) {
-                                    ret[this.id] = {};
+                                    var foundArray = $(this).
+                                        find('input[name=arrayAmount]').length;
+
+                                    ret[this.id] = foundArray? []: {};
                                 }
 
                                 newTarget = ret[this.id];
@@ -195,7 +198,7 @@
                                 }
                             }
                             else if (type == 'checkbox') {
-                                value = $(this).attr('checked');
+                                value = $(this).attr('checked')? true: false;
                             }
 
                             if (this.id) {
@@ -207,7 +210,7 @@
                                 }
                             }
                             else {
-                                target.push(value);
+                                ret[parent].push(value);
                             }
                         }
                     }
@@ -221,6 +224,14 @@
 
         function constructCode(options) {
             var ret = '$(parent).colorPicker(';
+
+            function stringify(a) {
+                if(typeOf(a) == 'string') {
+                    return "'" + a + "'";
+                }
+
+                return a;
+            }
 
             function _recursion(values) {
                 var i = 0;
@@ -241,7 +252,7 @@
                         for (var j = 0; j < value.length; j++) {
                             var item = value[j];
 
-                            ret += item;
+                            ret += stringify(item);
 
                             // skip last ,
                             if (j < value.length - 1) {
@@ -252,7 +263,7 @@
                         ret += ']';
                     }
                     else {
-                        ret += value;
+                        ret += stringify(value);
                     }
 
                     // skip last ,
@@ -288,7 +299,7 @@
             '</form>'
         );
 
-        var options = $()[pluginName]().getOptions();
+        var options = $.fn[pluginName].options;
         var $uiStructure = constructUI(options);
         $('#options').append($uiStructure);
 
