@@ -1,6 +1,6 @@
 /* MIT (c) Juho Vepsalainen */
 (function($) {
-    $.fn.qdemo = function(title, pluginName, inputCb) {
+    $.fn.qdemo = function(title, pluginName, parentElement, inputCb) {
         // http://javascript.crockford.com/remedial.html
         function typeOf(value) {
             var s = typeof value;
@@ -127,8 +127,8 @@
             }
 
             var $ret = _recursion(options, 'pluginOptions');
-            $ret.prepend(textInput(format('elementType'), 'elementType',
-                'div'));
+            $ret.prepend(textInput(format('parentElement'), 'parentElement',
+                parentElement || '<div></div>'));
 
             return $ret;
         }
@@ -143,9 +143,6 @@
 
         function getPluginOptions() {
             var ret = {};
-
-            // elementType is a special case
-            ret['elementType'] = $('#elementType').val();
 
             function _recursion(parent, target) {
                 $('#' + parent).children().each(function() {
@@ -210,6 +207,9 @@
 
             _recursion('pluginOptions');
 
+            // parentElement is a special case, no need to pass that
+            delete ret['parentElement'];
+
             return ret;
         }
 
@@ -232,6 +232,10 @@
 
                 for (var name in values) {
                     var value = values[name];
+
+                    if(name == 'parentElement') {
+                        continue;
+                    }
 
                     ret += name + ': ';
                     if (typeOf(value) == 'object') {
@@ -327,12 +331,14 @@
 
             $("#code").text(code);
 
-            var elementType = $('#elementType').val();
-            $('#pluginContainer').html('<' + elementType + ' id="plugin">');
+            var parent = $('#parentElement').val();
+            var $parentElement = $(parent).attr('id', 'plugin');
+            $('#pluginContainer').children().remove();
+            $('#pluginContainer').append($parentElement);
             $('#plugin')[pluginName](pluginOptions);
 
             if (typeOf(inputCb) == 'function') {
-                inputCb(elementType);
+                inputCb(parent);
             }
         }).change();
     };

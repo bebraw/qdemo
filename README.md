@@ -22,8 +22,8 @@ Usage:
 
 In addition to demo title and the name of the plugin function, it's possible to pass a callback that allows to customize input change behavior further. Example:
 $(function() {
-    $("#demo").demoize('qColor v0.1', 'colorPicker',
-        function(elementType) {
+    $("#demo").demoize('qColor v0.1', 'colorPicker', '<div></div>'
+        ,function(elementType) {
             if (elementType == 'input') {
                 $('#input').show();
             }
