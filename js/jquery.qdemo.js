@@ -118,7 +118,8 @@
                                 optionName);
 
                             $ret.append(uiStructure);
-                        }
+                        },
+                        "null": function() {}
                     }[typeOf(optionValue)]();
                 }
 
