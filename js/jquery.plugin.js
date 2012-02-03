@@ -23,7 +23,7 @@
     $.fn.awesomePlugin = function(options) {
         return this.each(function () {
             var $elem = $(this);
-            var opts = $.extend(defaults, options);
+            var opts = $.extend({}, defaults, options);
 
             awesomePlugin($elem, opts);
         });
