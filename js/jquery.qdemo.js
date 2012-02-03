@@ -1,16 +1,6 @@
-/**
- * qDemo, Demonstration generator for jQuery
- *
- * @author    Juho Vepsäläinen, http://nixtu.blogspot.com
- * @copyright Juho Vepsäläinen
- * @license   MIT
- * @version   0.1
- * @link      TODO
- *
- */
-
+/* MIT (c) Juho Vepsalainen */
 (function($) {
-    $.fn.demoize = function(title, pluginName, inputCb) {
+    $.fn.qdemo = function(title, pluginName, inputCb) {
         // http://javascript.crockford.com/remedial.html
         function typeOf(value) {
             var s = typeof value;
