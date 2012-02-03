@@ -3,18 +3,21 @@
         // TODO: make this really awesome
         var $e = $('<div>').css('background', opts.background)
             .css('width', opts.width + 'px')
-            .text(opts.text)
+            .text(opts.input)
             .appendTo($elem);
+
+        $.each(opts.segments, function(i, k) {
+            $('<div>').text(opts.text.toUpper? k.toUpperCase(): k).css('color', k).appendTo($e);
+        });
     }
 
     var defaults = {
         background: 'lime',
-        text: 'some text goes here',
+        input: 'some text goes here',
         width: 150,
         segments: ['red', 'green', 'blue'],
-        input: {
-            allowEmpty: false,
-            prependHash: false
+        text: {
+            toUpper: false
         }
     };
     $.fn.awesomePlugin = function(options) {
