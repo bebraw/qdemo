@@ -224,7 +224,7 @@
         }
 
         function constructCode(options) {
-            var ret = '$(parent).colorPicker(';
+            var ret = '$(parent).' + pluginName + '(';
 
             function stringify(a) {
                 if(typeOf(a) == 'string') {
