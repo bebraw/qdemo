@@ -284,7 +284,7 @@
             '</form>' +
             '<form>' +
             '<fieldset><legend>Code</legend>' +
-            '<div id="code"></div>' +
+            '<pre id="code"></pre>' +
             '</fieldset>' +
             '</form>' +
             '<form>' +
