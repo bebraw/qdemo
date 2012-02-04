@@ -51,6 +51,12 @@
         }
 
         function constructUI(options) {
+            function textArea(name, id, value) {
+                return '<label for="' + id + '">' + name + ': </label>' +
+                    '<textarea id="' + id + '" name="' + name + '">' +
+                    value + '</textarea>';
+            }
+
             function textInput(name, id, value) {
                 return input(name, id, value, 'text');
             }
@@ -132,8 +138,7 @@
             }
 
             var $ret = _recursion(options, 'pluginOptions');
-            $ret.prepend(textInput(format('parentElement'), 'parentElement',
-                parentElement || '<div></div>'));
+            $ret.prepend(textArea(format('parentElement'), 'parentElement', parentElement));
 
             return $ret;
         }
@@ -330,7 +335,7 @@
             }
         });
 
-        $("input").live('change', function() {
+        $("input, #parentElement").live('change', function() {
             var pluginOptions = getPluginOptions();
             var code = constructCode(pluginOptions);
 
