@@ -1,6 +1,11 @@
 /* MIT (c) Juho Vepsalainen */
 (function($) {
-    $.fn.qdemo = function(title, pluginName, parentElement, inputCb) {
+    $.fn.qdemo = function(opts) {
+        var title = opts.title || '';
+        var pluginName = opts.pluginName || '';
+        var parentElement = opts.parentElement || '<div></div>';
+        var inputCb = opts.inputCb || function(parent) {};
+        
         // http://javascript.crockford.com/remedial.html
         function typeOf(value) {
             var s = typeof value;
@@ -337,9 +342,7 @@
             $('#pluginContainer').append($parentElement);
             $('#plugin')[pluginName](pluginOptions);
 
-            if (typeOf(inputCb) == 'function') {
-                inputCb(parent);
-            }
+            inputCb(parent);
         }).change();
     };
 })(jQuery);
